@@ -32,15 +32,23 @@
             app:backgroundTint="#000000" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="100dp" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="96dp"/>
+    <Button
+            android:text="GET common divisor"
+            android:layout_width="210dp"
+            android:layout_height="48dp" android:id="@+id/btnCalcDivisor"
+            app:backgroundTint="#000000" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="100dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="36dp"/>
     <TextView
             android:layout_width="300dp"
-            android:layout_height="100dp" android:id="@+id/txtOutput"
+            android:layout_height="200dp" android:id="@+id/txtOutput"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="52dp" app:layout_constraintTop_toBottomOf="@+id/txtHeader"
             android:layout_marginTop="36dp" app:drawableTint="#35FF05"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
     <TextView
             android:text="Please enter your Matrikelnumber"
+            android:gravity="center"
             android:layout_width="217dp"
             android:layout_height="32dp" android:id="@+id/txtInfoMatNo"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="96dp"
