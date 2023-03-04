@@ -42,15 +42,14 @@ public class SendMessage implements Runnable {
         TextView outputTextView = (TextView) ActivityUtil.getView(context, R.id.txtOutput);
 
         if (correctInput) {
-            outputTextView.setText("initializing connection...");
-            Socket clientSocket = new Socket();
+            outputTextView.setText((String)"initializing connection...");
             try {
-                clientSocket = new Socket(MainActivity.HOST, MainActivity.PORT);
+                Socket clientSocket = new Socket(MainActivity.HOST, MainActivity.PORT);
 
                 DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                outputTextView.setText("fetching please be patient...");
+                outputTextView.setText((String)"fetching please be patient...");
 
                 output.writeBytes(this.matno + "\n");
 
@@ -60,9 +59,9 @@ public class SendMessage implements Runnable {
                 clientSocket.close();
             } catch (Exception ex) {
                 delegateErrorDialog(ex.getMessage());
-                System.out.println(ex);
+                System.out.println(ex.getMessage());
             }
-        } else outputTextView.setText("Matrikelnumber was too short, please try again!");
+        } else outputTextView.setText((String)"Matrikelnumber was too short, please try again!");
     }
 
     /**
@@ -72,9 +71,7 @@ public class SendMessage implements Runnable {
      */
     private void delegateErrorDialog(String errorMsg) {
         //run on main thread, otherwise the program makes boom boom
-        context.runOnUiThread(() -> {
-            context.displayError(errorMsg);
-        });
+        context.runOnUiThread(() -> context.displayError(errorMsg));
 
     }
 }

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * for loop at position i but rather skipped the same index numbers)
      */
     private void onBTNcalcdivisorClick() {
-        output.setText("calculating common divisor...");
+        output.setText((String)"calculating common divisor...");
         int firstnumber = 0, secondnumber = 0, divisor = 1;
         char[] matrikelnumberCharArr = inputMatNo.getText().toString().toCharArray();
         //go through the matrikelnumber and find a common divisor by calculating gcd
