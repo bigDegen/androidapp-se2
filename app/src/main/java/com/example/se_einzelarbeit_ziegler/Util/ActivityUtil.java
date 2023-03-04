@@ -11,8 +11,9 @@ public class ActivityUtil {
 
     /**
      * Gets the view by the R.id
+     *
      * @param context activity
-     * @param id the R.id
+     * @param id      the R.id
      * @return the view of the id
      */
     public static View getView(MainActivity context, int id) {

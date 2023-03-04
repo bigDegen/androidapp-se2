@@ -11,8 +11,9 @@ import com.example.se_einzelarbeit_ziegler.MainActivity;
 public class DialogUtil {
     /**
      * Create a dialog with the given parameters
-     * @param title dialog title
-     * @param msg dialog output message
+     *
+     * @param title   dialog title
+     * @param msg     dialog output message
      * @param context acivity
      * @return the finished dialog
      */

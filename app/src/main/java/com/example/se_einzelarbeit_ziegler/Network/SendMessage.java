@@ -5,7 +5,6 @@ import android.widget.TextView;
 import com.example.se_einzelarbeit_ziegler.MainActivity;
 import com.example.se_einzelarbeit_ziegler.R;
 import com.example.se_einzelarbeit_ziegler.Util.ActivityUtil;
-import com.example.se_einzelarbeit_ziegler.Util.DialogUtil;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -16,7 +15,7 @@ public class SendMessage implements Runnable {
     private MainActivity context;
     private boolean correctInput;
 
-    public SendMessage(MainActivity context, boolean correctInput){
+    public SendMessage(MainActivity context, boolean correctInput) {
         this.context = context;
         this.correctInput = correctInput;
     }
@@ -28,27 +27,28 @@ public class SendMessage implements Runnable {
 
         String matNo = inputMatNo.getText().toString();
 
-        if (correctInput){
-                Socket clientSocket = new Socket();
-                try {
-                    clientSocket = new Socket(context.HOST,context.PORT);
+        if (correctInput) {
+            Socket clientSocket = new Socket();
+            try {
+                clientSocket = new Socket(context.HOST, context.PORT);
 
-                    DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
-                    BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
+                BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                    output.writeBytes(matNo+"\n");
+                output.writeBytes(matNo + "\n");
 
-                    outputTextView.setText(input.readLine());
-                    input.close();
-                    output.close();
-                    clientSocket.close();
-                }catch (Exception ex){
-                    delegateErrorDialog(ex.getMessage().toString());
-                    System.out.println(ex.toString());
-                }
-    }}
+                outputTextView.setText(input.readLine());
+                input.close();
+                output.close();
+                clientSocket.close();
+            } catch (Exception ex) {
+                delegateErrorDialog(ex.getMessage().toString());
+                System.out.println(ex.toString());
+            }
+        }
+    }
 
-    private void delegateErrorDialog(String errorMsg){
+    private void delegateErrorDialog(String errorMsg) {
         context.displayError(errorMsg);
     }
 }
