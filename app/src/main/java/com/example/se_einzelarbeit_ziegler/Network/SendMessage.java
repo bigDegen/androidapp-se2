@@ -3,7 +3,6 @@ package com.example.se_einzelarbeit_ziegler.Network;
 
 import android.widget.TextView;
 import com.example.se_einzelarbeit_ziegler.MainActivity;
-import com.example.se_einzelarbeit_ziegler.R;
 import com.example.se_einzelarbeit_ziegler.Util.ActivityUtil;
 
 import java.io.BufferedReader;
@@ -15,9 +14,17 @@ import java.net.Socket;
  * Class for message sending and retrieving via TCP Socket
  */
 public class SendMessage implements Runnable {
+    //Main Activity
     private final MainActivity context;
-    private final boolean correctInput;
+    //Matrikel number or however it is called in english, studentid?
     private final String matno;
+    //Element which the output should be written to
+    private final int textViewID;
+
+    // Network stuff
+    private Socket clientSocket;
+    private DataOutputStream output;
+    private BufferedReader input;
 
     /**
      * Constructor for SendMessage Class
@@ -26,10 +33,10 @@ public class SendMessage implements Runnable {
      * @param correctInput boolean for correct number input
      * @param matno        the matrikelnumber
      */
-    public SendMessage(MainActivity context, boolean correctInput, String matno) {
+    public SendMessage(MainActivity context, String matno, int textViewID) {
         this.context = context;
-        this.correctInput = correctInput;
         this.matno = matno;
+        this.textViewID = textViewID;
     }
 
     /**
@@ -39,21 +46,49 @@ public class SendMessage implements Runnable {
      */
     @Override
     public void run() {
-        TextView outputTextView = (TextView) ActivityUtil.getView(context, R.id.txtOutput);
-
-        if (correctInput) {
-            outputTextView.setText((String)"initializing connection...");
+        TextView outputTextView = (TextView) ActivityUtil.getView(context, textViewID);
+         outputTextView.setText("initializing connection...");
             try {
-                Socket clientSocket = new Socket(MainActivity.HOST, MainActivity.PORT);
+                //Initialize Connection
+                initializeConnection();
+                outputTextView.setText("fetching please be patient...");
 
-                DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
-                BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-                outputTextView.setText((String)"fetching please be patient...");
-
+                //write bytes (send message)
                 output.writeBytes(this.matno + "\n");
 
+                //write return to the textview
                 outputTextView.setText(input.readLine());
+
+                //Close connection
+                closeConnection();
+            } catch (Exception ex) {
+                delegateErrorDialog(ex.getMessage());
+                System.out.println(ex.getMessage());
+            }
+    }
+
+    /**
+     * Initializes the network socket as well as the I/O Reader/Writer
+     */
+    private void initializeConnection() {
+        try {
+            clientSocket = new Socket(MainActivity.HOST, MainActivity.PORT);
+
+            output = new DataOutputStream(clientSocket.getOutputStream());
+            input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        } catch (Exception ex) {
+            delegateErrorDialog(ex.getMessage());
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
+    /**
+     * Closes the connection socket as well as the input and output readers/writers
+     */
+    private void closeConnection() {
+        if (input != null && output != null && clientSocket != null) {
+            try {
                 input.close();
                 output.close();
                 clientSocket.close();
@@ -61,7 +96,10 @@ public class SendMessage implements Runnable {
                 delegateErrorDialog(ex.getMessage());
                 System.out.println(ex.getMessage());
             }
-        } else outputTextView.setText((String)"Matrikelnumber was too short, please try again!");
+        } else {
+            delegateErrorDialog("The connection was not initialized correctly...");
+            System.out.println("The connection was not initialized correctly, can't close whats not open!");
+        }
     }
 
     /**
