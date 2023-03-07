@@ -29,8 +29,8 @@ public class SendMessage implements Runnable {
     /**
      * Constructor for SendMessage Class
      *
-     * @param context      acivity
-     * @param matno        the matrikelnumber
+     * @param context acivity
+     * @param matno   the matrikelnumber
      */
     public SendMessage(MainActivity context, String matno, int textViewID) {
         this.context = context;
@@ -46,24 +46,24 @@ public class SendMessage implements Runnable {
     @Override
     public void run() {
         TextView outputTextView = (TextView) ActivityUtil.getView(context, textViewID);
-         outputTextView.setText("initializing connection...");
-            try {
-                //Initialize Connection
-                initializeConnection();
-                outputTextView.setText("fetching please be patient...");
+        outputTextView.setText("initializing connection...");
+        try {
+            //Initialize Connection
+            initializeConnection();
+            outputTextView.setText("fetching please be patient...");
 
-                //write bytes (send message)
-                output.writeBytes(this.matno + "\n");
+            //write bytes (send message)
+            output.writeBytes(this.matno + "\n");
 
-                //write return to the textview
-                outputTextView.setText(input.readLine());
+            //write return to the textview
+            outputTextView.setText(input.readLine());
 
-                //Close connection
-                closeConnection();
-            } catch (Exception ex) {
-                delegateErrorDialog(ex.getMessage());
-                System.out.println(ex.getMessage());
-            }
+            //Close connection
+            closeConnection();
+        } catch (Exception ex) {
+            delegateErrorDialog(ex.getMessage());
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**

@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         if (divisor == 1) output.setText("No common divisor except 1 was found between any of the numbers");
-        else output.setText("The number " + firstnumber + " and " + secondnumber + " in the Matrikelnumber " + inputMatNo.getText().toString() + ", can be divided by " + divisor + "!");
+        else
+            output.setText("The number " + firstnumber + " and " + secondnumber + " in the Matrikelnumber " + inputMatNo.getText().toString() + ", can be divided by " + divisor + "!");
     }
 
     /**
