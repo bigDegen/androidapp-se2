@@ -74,14 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * ***************************************************************************************************
      * This function gets invoked when the Get common divisor button is pressed
-     * It goes throw the matrikelnumber and tries to calculate a common divisor,
+     * It goes through the matrikelnumber and tries to calculate a common divisor,
      * two numbers get passed into the MathUtil.class - getGcd funtion
      * ***************************************************************************************************
      * (i could not extract from the assignement if the order is of relevance so i did not start the second
      * for loop at position i but rather skipped the same index numbers)
      */
     private void onBTNcalcdivisorClick() {
-        output.setText((String)"calculating common divisor...");
+        output.setText("calculating common divisor...");
         int firstnumber = 0, secondnumber = 0, divisor = 1;
         char[] matrikelnumberCharArr = inputMatNo.getText().toString().toCharArray();
         //go through the matrikelnumber and find a common divisor by calculating gcd
@@ -96,7 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
-        output.setText("The number " + firstnumber + " and " + secondnumber + " in the Matrikelnumber " + inputMatNo.getText().toString() + ", can be divided by " + divisor + "!");
+        if (divisor == 1) output.setText("No common divisor except 1 was found between any of the numbers");
+        else output.setText("The number " + firstnumber + " and " + secondnumber + " in the Matrikelnumber " + inputMatNo.getText().toString() + ", can be divided by " + divisor + "!");
     }
 
     /**
@@ -105,16 +106,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * connection aswell as the sending of the message
      */
     private void onBTNgetinformationClick() {
-        boolean correctInput = inputMatNo.getText().toString().length() >= 7;
 
-        SendMessage messageSender = new SendMessage(this, correctInput, inputMatNo.getText().toString());
+        // Initialize message Sender
+        if (inputMatNo.getText().toString().length() >= 7) {
+            SendMessage messageSender = new SendMessage(this, inputMatNo.getText().toString(), R.id.txtOutput);
 
-        // Sending message to Server, HOST and PORT are defined above
-        try {
-            new Thread(messageSender).start();
-        } catch (Exception ex) {
-            displayError(ex.getMessage());
-        }
+            // Sending message to Server, HOST and PORT are defined above
+            try {
+                new Thread(messageSender).start();
+            } catch (Exception ex) {
+                displayError(ex.getMessage());
+            }
+        } else displayError("The Matrikelnumber was too short!\nMin 7 digits");
     }
 
     /**
