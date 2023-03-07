@@ -30,7 +30,6 @@ public class SendMessage implements Runnable {
      * Constructor for SendMessage Class
      *
      * @param context      acivity
-     * @param correctInput boolean for correct number input
      * @param matno        the matrikelnumber
      */
     public SendMessage(MainActivity context, String matno, int textViewID) {
